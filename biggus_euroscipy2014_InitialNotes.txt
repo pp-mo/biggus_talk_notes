@@ -1,0 +1,317 @@
+TO DISCUSS
+
+Audience: developers.. users with some experience of Python (+ numpy)
+Purpose:  increase awareness + invite contributions.  (discuss issues + techniques)
+Topics
+  purpose
+  features
+  concepts
+  architecture
+
+  use within Iris 
+    where how what why
+    development of need:
+      (stack, dice, aggregate, combine (compare/arithmetic)
+      format-independence  (abstraction + commonality)
+      ?? explicit usage benefits
+    context: typical datasets and operations (VERY BRIEF)
+
+
+Scope
+  intro
+    concepts
+      big data
+      lazy/deferred
+        space/time/parallelism
+        convenience + power  (usage, explicit-style)
+        commonality + abstraction  (instead of case-specific hacks)
+    numpy and "arrays" generally
+        regular multidimensional value-typed
+    simple example  (as already)
+    operations
+  why it is how it is
+    iris experience
+      example data, operations, workflow
+        TWO KEY DATA FORMAT INSTANCES
+          1. big time sequence (* different phenomena)
+          2. big forecast file(s) (lots of phenomena, some repetition over level + time)
+        KEY EXAMPLE:
+          extract area-sections from a time-sequence
+              previously built a special deffered-data representation to handle this
+              with Biggus, worries about different file-formats disappeared
+                  plus got deffered data for GRIB (with any tricky bits) "almost free"
+              as it happens, this is good in netcdf NSG grib/PP
+    working methods
+  architecture
+    ?? needs a picture or two
+    arrays + adapters
+    derived (calculated) arrays
+        * stack + tile(mosaic)
+        * arithmetic
+        * aggregation
+        arithmetic/aggregation + stream-handler concept
+          what about histograms / percentiles  (i.e. rank stats) ?
+    engines + nodes  (parallel evaluation)
+  future
+    parallel execution // simultaneous evaluation
+    proper strategies for speed+space division
+    ?? the relation to multi-processing  (ref HPC) ??
+
+Delivery + Style
+  30 mins
+  chat + ipynb
+  not a lot of pictures
+  some numbers about performance benefit
+
+
+
+MORE FUTURE
+  facils
+    as_dtype, mul/div/exp/log
+
+MISSING
+  alternative solutions "out there"
+  view the actual code ??
+  terminology:
+    lazy deferred
+    evaluate/realise/concrete
+
+
+OUTSTANDING QUESTIONS
+---------------------
+* obviously, Elementwise.XX_array_XX uses engine.XX_array_XX
+   Adaptors, Stack + Tile(Mosaic) do not
+   but *** why does Aggregation use engine? ***
+
+ 
+
+
+
+FACILITIES
+----------
+[add, sub..] --> _Elementwise --> _ElementwiseStreamsHandler --> Chunk
+[count, mean, std, var]
+    --> xxCountxxStreamsHandler --> Chunk
+    --> Aggregation --> ComputedArray --[xx_array_xx]--> engine
+
+ConstantArray, 
+ArrayAdapter
+ArrayStack
+LinearMosaic
+
+
+
+
+
+
+Original abstract:
+    Summary
+    -------
+
+    Biggus is a lightweight pure-Python package which implements lazy operations on numpy array-like objects.
+    This provides dramatically improved efficiency in analysing large datasets, for minimal additional effort in the client code.
+
+    See : https://github.com/SciTools/biggus
+
+    Rationale
+    -------
+
+    As scientific datasets continue to grow exponentially in size, the resource requirements of even simple analyses can quickly grow to become a problem 
+    -- e.g. the job takes an unreasonably long time, or simply runs out of space.
+
+    Existing solutions to this may be powerful, but can also come with a large complexity overhead, especially for the non-expert user.
+    This makes adapting an existing analysis to the needs of larger datasets potentially very costly.
+
+    Biggus provides simple abstractions of data access and calculations which provide lazy evaluation.
+    It exposes this as simple virtual array object which mimics a numpy array.
+    Thus, it does not require the user to re-cast an operation in unfamiliar terms, or specify unrelated details of data storage or concurrency factors.
+
+    The lazy evaluation approach allows optimised resource usage for both storage accesses and the parallelisation of calculations.
+    Pure Python is well suited to describing and implementing these techniques, and the resulting implementation is easily accessible to the average user.
+
+    At the Met Office, we develop data analysis tools for a large community of research scientists
+    We developed Biggus as a resource for the Iris project, our next-generation analysis library for meteorological and oceanographic data (see: http://scitools.org.uk/iris/).
+    While Biggus is still work-in-progress, within Iris it is already delivering significant benefit, in tasks such as cataloguing large datasets and accelerating statistical calculations.
+    Here, performance already exceeds that of other standard software toolsets.
+
+    Schedule
+    -------
+
+        the problems Biggus is aiming to solve, and techniques employed
+        an overview of the architecture and code of the current implementation
+        a demonstration of current performance, in ease-of-use and efficiency benefits
+        suggestions for future developments; how to get involved; questions
+
+    Supporting URLs
+    -------
+    Iris project (core developer)
+    Biggus project
+    (own project : object wrapping for netcdf manipulations) 
+
+
+
+
+Keynotes:
+  abstractions
+  lazy / deferred
+  array metaphor (?? )
+    paradigm
+      shape + dtype
+      indexing forms
+  relationship to numpy
+  user experience
+  purposes : 
+    *** speed ***
+    *** time ***
+    ?? parallelisation ??
+    size+complexity of code
+      .. complexity for developeres
+    neatness of use
+      .. complexity for users
+      .. appearance + transparency of code
+  character
+    modularity
+    transparency
+    explicit usages
+
+Topics:
+  use in Iris
+  usecases : speed and space
+  ALTERNATIVES
+    Languages
+      Haskell
+    Modules
+      lazyarray
+        supports elementwise deferment + operations (ufuncs translated), but not ...
+          stack/tile
+          streams
+      DistNumpy
+      numpy "generator arrays" proposals (future)
+    ? distributed calculation approaches in general ?
+
+
+Incidentals
+  AVD
+  Iris
+  modularity
+  agile management (do it when it is needed)
+  completeness / functionality
+
+BIGGUS Feature areas:
+  Array
+    Adapters
+  Engine
+    Nodes
+    StreamsHandlers
+  FEATURES + OPERATIONS
+    (native : indexing, shapes)
+    stacks + tiles
+    binary operations (NOT OVERLOADED)
+    aggregation
+
+
+Examples + demonstration:
+
+
+
+
+
+DATA SAMPLES
+>>> cubes = iris.load('/data/local/dataZoo/PP/COLPEX/COLPEX_16a_pj001.pp')
+>>> cubes
+[<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 411; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of air_potential_temperature / (K) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of air_pressure / (Pa) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of air_pressure / (Pa) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of dimensionless_exner_function / (1) (time: 6; model_level_number: 71; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of mass_fraction_of_cloud_ice_in_air / (1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of mass_fraction_of_cloud_liquid_water_in_air / (1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of specific_humidity / (1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of surface_air_pressure / (Pa) (time: 6; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of surface_altitude / (m) (time: 6; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of upward_air_velocity / (m s-1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of x_wind / (m s-1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of y_wind / (m s-1) (time: 6; model_level_number: 70; grid_latitude: 411; grid_longitude: 412)>]
+>>> cubes
+[<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 411; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of air_potential_temperature / (K) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of air_pressure / (Pa) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of air_pressure / (Pa) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of dimensionless_exner_function / (1) (time: 6; model_level_number: 71; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of mass_fraction_of_cloud_ice_in_air / (1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of mass_fraction_of_cloud_liquid_water_in_air / (1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of specific_humidity / (1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of surface_air_pressure / (Pa) (time: 6; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of surface_altitude / (m) (time: 6; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of upward_air_velocity / (m s-1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of x_wind / (m s-1) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>,
+<iris 'Cube' of y_wind / (m s-1) (time: 6; model_level_number: 70; grid_latitude: 411; grid_longitude: 412)>]
+>>> print 6*70*412*412*4.0
+285169920.0
+>>> print '{:e}'.format(6*70*412*412*4.0)
+2.851699e+08
+>>> len(cubes)
+19
+>>> print '{:e}'.format(19*6*70*412*412*4.0)
+5.418228e+09
+>>> for i_cube, cube in enumerate(cubes):
+...   print i_cube, cube.shape
+... 
+0 (6, 70, 412, 412)
+1 (6, 70, 412, 412)
+2 (6, 70, 412, 412)
+3 (6, 70, 411, 412)
+4 (6, 70, 412, 412)
+5 (6, 70, 412, 412)
+6 (6, 70, 412, 412)
+7 (6, 70, 412, 412)
+8 (6, 70, 412, 412)
+9 (6, 70, 412, 412)
+10 (6, 71, 412, 412)
+11 (6, 70, 412, 412)
+12 (6, 70, 412, 412)
+13 (6, 70, 412, 412)
+14 (6, 412, 412)
+15 (6, 412, 412)
+16 (6, 70, 412, 412)
+17 (6, 70, 412, 412)
+18 (6, 70, 411, 412)
+>>> cubes[0]
+<iris 'Cube' of unknown / (unknown) (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)>
+>>> print cubes[0]
+unknown / (unknown)                 (time: 6; model_level_number: 70; grid_latitude: 412; grid_longitude: 412)
+     Dimension coordinates:
+          time                           x                      -                  -                    -
+          model_level_number             -                      x                  -                    -
+          grid_latitude                  -                      -                  x                    -
+          grid_longitude                 -                      -                  -                    x
+     Auxiliary coordinates:
+          forecast_period                x                      -                  -                    -
+          level_height                   -                      x                  -                    -
+          sigma                          -                      x                  -                    -
+          surface_altitude               -                      -                  x                    x
+     Derived coordinates:
+          altitude                       -                      x                  x                    x
+     Scalar coordinates:
+          forecast_reference_time: 2009-09-09 16:00:00
+     Attributes:
+          STASH: m01s00i090
+          source: Data from Met Office Unified Model
+          um_version: 7.4
+>>> 19*0.1
+1.9000000000000001
+>>> 19*0.4
+7.6000000000000005
+>>> 

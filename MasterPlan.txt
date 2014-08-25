@@ -1,0 +1,45 @@
+Topics + Areas
+
+Background TB covered
+  context for other projects
+  Dist-Array [enthought]: distributed
+    -- specific indices are "owned" by specific "engines" (on different machines)
+    -- uses "Distributed Array Protocol" standard ((RW array sharing amongst multiple processes))
+  Spartan : lazy + distributed processing [ssh]
+  ortho/numpy indexing
+  'save' to file operation (example?)
+
+Somewhere...
+  growth from (use in) Iris
+  working methods
+  relationship to NumPy
+  relationship to (Blaze, Spartan, Dist-Array)
+  
+Intro
+  core
+    lazy
+    array properties
+      square, shape
+      indexing styles
+    ((1)) indexing
+  Iris need
+  status
+    separate project, separate provision
+    agile provision
+    WIP
+  CONTENT SUMMARY (map)
+  
+Key features
+  ((1)) ?? indexing
+  ?? arrays and adapters
+  aggregation
+  stack + tile  [[the opposite of indexing]]
+  arithmetic
+  parallel evaluation (engine, nodes, concurrency)
+    expression graphs
+
+Future
+  parallel execution // simultaneous evaluation
+  proper strategies for speed+space division
+  ?? the relation to multi-processing  (ref HPC) ??
+
