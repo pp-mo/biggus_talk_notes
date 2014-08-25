@@ -315,3 +315,39 @@ unknown / (unknown)                 (time: 6; model_level_number: 70; grid_latit
 >>> 19*0.4
 7.6000000000000005
 >>> 
+
+
+
+================================
+Motivating example
+
+Suppose we are comparing two sets of results, differently organised...
+* in one set of files, we have monthly observational averages over 100 years
+    * probably multiple physical variables
+* in another set of files we have daily forecast data for a 10 year span
+    * several different parameters
+    * multiple height layers
+    * 3 hourly forecast intervals
+    * forecast periods out to 3 days
+* we want weekly temperature differences between the forecasts and a rolling
+  3-month climate window, over the 10 forecast years.
+* this involves 
+    * extracting the required variables from each dataset
+    * averaging the climate data on a 3-month rolling window
+    * constructing weekly averages of the forecast data
+    * subtracting the two
+* it is relatively easy to write this if you load *all* the data into arrays
+    * this way you can remove the problem of how the data are stored (e.g. it
+      may be split across files)
+* it gets hard if the time-period or spatial resolution increase, to the point
+  where it doesn't all fit in memory.
+* you can divide the problem into sections, but loading the appropriate data
+  for part of the job requires different extraction processes for the two
+  datasets, as they are organised differently.  To efficiently process the
+  data is may be harder still, because of the overlaps.
+
+The purpose of Biggus is to make it possible to describe the process as if you
+had all the data in hand.  This means you abstract away the method of dividing
+the problem up, and increase efficiency by "automatically" overlapping the
+different usages of different parts of the data.
+
