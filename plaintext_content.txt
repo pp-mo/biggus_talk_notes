@@ -3,9 +3,12 @@ Efficient large data operations with Biggus
 ===========================================
 Aug 30th 2014
 
-+++ADD+++ www.github.com/SciTools/biggus
-
 Patrick Peglar - UK Met Office, Exeter
+
+Biggus: https://github.com/SciTools/biggus
+
+( this talk: https://github.com/pp-mo/nb-slideshow-template )
+
 
 ::  Intro self; Met Office; AVD
 ::    science support role, especially tools development
@@ -19,10 +22,6 @@ Patrick Peglar - UK Met Office, Exeter
 ::             * processing and visualisation
 ::    major sub projects :  Cartopy (matplotlib mapping), Biggus (deferred data operations)
 
-+++
->>>
-Image (Office logo)
-+++
 
 
 [[0a]] Overview
@@ -149,6 +148,12 @@ So... what is the point ?
 :: SO the primary purpose of Biggus is to separate data management from processing.
 ::
 
+
+:: CONVENIENCE is *also* EFFICIENCY 
+::    -- your time
+::    -- manageable code
+
++++
 Example 
 ((Iris load output))
 
@@ -175,14 +180,13 @@ Example
 ::   - KEY SIMPLE CASE: the result fits, but not all the data does
 ::   - this problem is clearly fixable, but 
 ::   - with Biggus lazy evaluation, we can fix this
+::      ... *** as we shall see... ***
 
 
-:: The biggest
-::
 >>>
  * TIME (efficiency + cleverness)
-    * once you have divided loading, you don't want to re-scan
-    * the processes that acces it must run in parallel
+    * with sectional access (especially of files), you don't want to re-scan
+    * the accessing processes must run "in parallel"
     * eventially / potentially this leads to distributed processing
         - (i.e. processes not co-hosted)
 
@@ -194,10 +198,15 @@ Example
  2. grouped arrays (aka: stack + tile)
  3. statistics  (aka: aggregation)
  4. arithmetic
- 5. parallelism
+ 5. parallel evaluation
+
+>>>
+Key points:
+ * all operations produce an 'Array' object
+ * all operations can be combined arbitrarily
+ * lazy representation allow efficient evaluation
 
 
-+++
 [[5]] Features #1 : **Arrays and Indexing**
 ### Anything that 'looks like' an array can be presented as a biggus.Array
 -------
@@ -209,7 +218,8 @@ It just needs to support the minimum numpy-array-like properties :
  * dtype
  * __getitem__ (i.e. indexing)
 
-+++
+:: achieved via a thin interface layer
+
 >>>
 [[5a]]
 ### All types of Biggus array then support the major indexing operations...
@@ -218,10 +228,10 @@ It just needs to support the minimum numpy-array-like properties :
 :: Not quite as trivial as it looks
 :: In numpy there are about +++?? 9 ? different types of array indexing
 :: Biggus supports a useful subset...
-
+:: N.B. we do "Ortho" indexing, not numpy "fancy" indexing
+::    - this is like netcdf4 and h5py
 
 >>>
-+++
 [[5b]]
 Here's a tiny example that "looks like" an array full of a constant, and indicates clearly when it is actually accessed.
 ----
@@ -248,7 +258,6 @@ accessing : (0, 1)
 [ 3.5  3.5  3.5  3.5]
 
 
-+++
 [[5c]]
 In fact, this functionality is already provided in biggus
 -----
@@ -267,8 +276,7 @@ In [8]:
 <ConstantArray shape=(4,) dtype=dtype('float64')>
 [ 3.77  3.77  3.77  3.77]
 
-[[8]]
-
+:: NOTE just the same as the previous
 
 
 [[6]] Features #2 : **Grouped Arrays**
