@@ -13,14 +13,17 @@ Patrick Peglar - UK Met Office, Exeter
 ::      "Python library for analysing and visualising meteorological and oceanographic data sets."
 ::    major sub projects :  Cartopy (matplotlib mapping), Biggus (deferred data operations)
 
+###
+>>>
+Image (Office logo)
+###
 
 
-[[1]] Summary
-###RENAME 'Overview'
+[[0a]] Overview
 -------
 Biggus is a lightweight pure-Python package which implements lazy operations on numpy array-like objects. This provides dramatically improved efficiency in analysing large datasets, for minimal additional effort in the client code.
 
-
+>>>
 From the module docstring...
 ------
 Virtual arrays of arbitrary size, with arithmetic and statistical operations, and conversion to NumPy ndarrays.
@@ -30,27 +33,30 @@ Includes support for easily wrapping data sources which produce NumPy ndarray ob
 All operations are performed in a lazy fashion to avoid overloading system resources.
 Conversion to a concrete NumPy ndarray requires an explicit method call.
 
-( That's pretty much it, so we can all go home. )
-
 ::  In a nutshell
 ::  Group, subset, slice+dice, arithmetic, statistical measures
 ::    -- virtual arrays : deferred calculations + data loading, storage-agnostic
 ::  
 ::  (ultimately : distribution agnostic ?)
 
+>>>
+( That's pretty much it, so we can all go home. )
 
-[[2]] The longest journey ...
+
+[[1]] The longest journey ...
 ------
+>>>
 In [2]:
 import biggus
 print biggus.__version__
 0.7.0-alpha
 
 
-[[3]]  A simple 'mean' calculation ...
+[[2]]  A simple 'mean' calculation ...
 -----
 (and later.. the biggus equivalent)
 
+>>>
 In [3]:
     import numpy as np
     array_1 = np.array([[1., 5., 2.], [7., 6., 5.]])
@@ -72,15 +78,21 @@ mean over axis 1 :
 [ 2.66666667  6.        ]
 
 
-[[4]]  simple mean calculation : The Biggus equivalent
-### capital 'S' ?
+[[3a]]  simple mean calculation : The Biggus equivalent
 -------
+
+>>>
 In [4]:
     lazy_1 = biggus.NumpyArrayAdapter(array_1)
     print 'a lazy array : ', lazy_1
 
 a lazy array :  <NumpyArrayAdapter shape=(2, 3) dtype=dtype('float64')>
 
+
+[[3b]]
+Lazy mean and result...
+
+>>>
 In [5]:
     lazy_mean = biggus.mean(lazy_1, axis=1)
     print 'lazy mean :', lazy_mean
@@ -95,8 +107,8 @@ shape : (2, 3)
 lazy mean *result* :
 [ 2.66666667  6.        ]
 
-
-[[5]] Same as before...
+>>>
+Same as before...
 ------
 But this time change the source data, between forming the mean and evaluating it.
 
@@ -110,7 +122,23 @@ In [6]:
 [-1.  6.]
 
 
-[[6]]
+[[3]]
+So... what is the point ?
+------
+
+>>>
+ * CONVENIENCE (or.. "features")
+
+:: If you have a data processing  
+
+>>>
+ * SPACE (resource efficiency)
+
+>>>
+ * TIME (efficiency + cleverness)
+
+
+[[4]]
 Anything that 'looks like' an array can be wrapped as a biggus.Array
 -------
 So, "What is an array ?"
@@ -163,11 +191,4 @@ In [8]:
 <ConstantArray shape=(4,) dtype=dtype('float64')>
 [ 3.77  3.77  3.77  3.77]
 
-
-[[8]]
-But what is the point ?
-------
- * SPACE
- * TIME
- * CONVENIENCE (or.. "features")
 
