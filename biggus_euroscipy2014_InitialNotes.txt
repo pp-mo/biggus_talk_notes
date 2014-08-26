@@ -317,6 +317,56 @@ unknown / (unknown)                 (time: 6; model_level_number: 70; grid_latit
 >>> 
 
 
+### ODD LARGE FILE ###
+
+>>> cubes = iris.load('/data/local/dataZoo/PP/forLinearinterpolation/prodm_op_us4_20130511_00.018.pp')
+>>> print cubes
+0: unknown / (unknown)                 (time: 3; grid_latitude: 700; grid_longitude: 1200)
+1: unknown / (unknown)                 (time: 3; grid_latitude: 700; grid_longitude: 1200)
+2: unknown / (unknown)                 (time: 3; model_level_number: 30; grid_latitude: 700; grid_longitude: 1200)
+3: unknown / (unknown)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+4: unknown / (unknown)                 (time: 3; model_level_number: 30; grid_latitude: 700; grid_longitude: 1200)
+5: unknown / (unknown)                 (time: 3; model_level_number: 30; grid_latitude: 700; grid_longitude: 1200)
+6: unknown / (unknown)                 (time: 3; model_level_number: 30; grid_latitude: 700; grid_longitude: 1200)
+7: unknown / (unknown)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+8: unknown / (unknown)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+9: unknown / (unknown)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+10: unknown / (unknown)                 (time: 3; model_level_number: 70; grid_latitude: 699; grid_longitude: 1200)
+11: unknown / (unknown)                 (time: 3; model_level_number: 71; grid_latitude: 700; grid_longitude: 1200)
+12: unknown / (unknown)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+13: unknown / (unknown)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+14: unknown / (unknown)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+15: unknown / (unknown)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+16: air_potential_temperature / (K)     (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+17: air_pressure / (Pa)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+18: air_pressure / (Pa)                 (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+19: air_temperature / (K)               (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+20: convective_cloud_area_fraction_in_atmosphere_layer / (unknown) (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+21: dimensionless_exner_function / (1)  (time: 3; model_level_number: 71; grid_latitude: 700; grid_longitude: 1200)
+22: geopotential_height / (m)           (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+23: mass_fraction_of_cloud_ice_in_air / (1) (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+24: mass_fraction_of_cloud_liquid_water_in_air / (1) (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+25: mass_fraction_of_convective_cloud_liquid_water_in_air / (1) (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+26: specific_humidity / (1)             (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+27: stratiform_cloud_area_fraction_in_atmosphere_layer / (1) (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+28: surface_air_pressure / (Pa)         (time: 3; grid_latitude: 700; grid_longitude: 1200)
+29: surface_altitude / (m)              (time: 3; grid_latitude: 700; grid_longitude: 1200)
+30: surface_downward_eastward_stress / (Pa) (time: 3; model_level_number: 30; grid_latitude: 700; grid_longitude: 1200)
+31: surface_downward_northward_stress / (Pa) (time: 3; model_level_number: 30; grid_latitude: 699; grid_longitude: 1200)
+32: upward_air_velocity / (m s-1)       (time: 3; model_level_number: 71; grid_latitude: 700; grid_longitude: 1200)
+33: x_wind / (m s-1)                    (time: 3; model_level_number: 70; grid_latitude: 700; grid_longitude: 1200)
+34: y_wind / (m s-1)                    (time: 3; model_level_number: 70; grid_latitude: 699; grid_longitude: 1200)
+>>> 
+
+
+### LONG SEQUENCE ??? ###
+TRY BIG FIELDS ?DUMPS?
+
+  /project/badc/hiresgw
+    
+  /data/local/dataZoo/Fields/ukvop/qwqv00.T+0
+
+
 
 ================================
 Motivating example

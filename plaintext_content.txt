@@ -3,7 +3,7 @@ Efficient large data operations with Biggus
 ===========================================
 Aug 30th 2014
 
-##ADD## www.github.com/SciTools/biggus
++++ADD+++ www.github.com/SciTools/biggus
 
 Patrick Peglar - UK Met Office, Exeter
 
@@ -11,12 +11,18 @@ Patrick Peglar - UK Met Office, Exeter
 ::    science support role, especially tools development
 ::    Main product = Iris
 ::      "Python library for analysing and visualising meteorological and oceanographic data sets."
+::         - this is now in use around the world, but PRINCIPALLY by a large in-house science base (~400)
+::         - key points
+::             * fully open-source
+::             * Python, numpy, matplotlib
+::             * file-format agnostic
+::             * processing and visualisation
 ::    major sub projects :  Cartopy (matplotlib mapping), Biggus (deferred data operations)
 
-###
++++
 >>>
 Image (Office logo)
-###
++++
 
 
 [[0a]] Overview
@@ -128,18 +134,72 @@ So... what is the point ?
 
 >>>
  * CONVENIENCE (or.. "features")
+    * grab all the data
+    * write analysis code
+    * don't worry about resources / efficiency
 
-:: If you have a data processing  
+:: By far the *easiest* way to write a data processing algorithm starts by grabbing all the data
+::   - typically as numpy arrays
+::   - frequently load whole files, then cut out what you need (by type or region)
+::
+:: The key problem here is that as the data grows, the space+time cost gets unmanageable
+::   - problems are soluable "DIVIDE + CONQUER"
+::   - but these problems get mixed up with the original analysis solution
+:: 
+:: SO the primary purpose of Biggus is to separate data management from processing.
+::
+
+Example 
+((Iris load output))
+
+:: IN OUR HISTORY:
+::  - file format independence
+::  - basic deferred loading 
+::  - history of 3 biggies
+::     1. at one point separate code for PP + NC, nothing for GRIB
+::     2. migrated PP to Biggus
+::     3. shortly followed by NC --> GRIB now very easy !
+:: see the benefit of abstraction
+
 
 >>>
  * SPACE (resource efficiency)
+    * data grows
+    * eventually you can't fit all the data
 
+:: (As already) DATA GROWS
+::   - typically (IN OUR WORLD) = longer timescales or higher time/space resolution
+:: 
+
+:: In this case, even a simple time-mean : bigger data ==> won't all fit
+::   - KEY SIMPLE CASE: the result fits, but not all the data does
+::   - this problem is clearly fixable, but 
+::   - with Biggus lazy evaluation, we can fix this
+
+
+:: The biggest
+::
 >>>
  * TIME (efficiency + cleverness)
+    * once you have divided loading, you don't want to re-scan
+    * the processes that acces it must run in parallel
+    * eventially / potentially this leads to distributed processing
+        - (i.e. processes not co-hosted)
 
 
-[[4]]
-Anything that 'looks like' an array can be wrapped as a biggus.Array
+
+[[4]] Features summary
+----
+ 1. arrays and indexing
+ 2. grouped arrays (aka: stack + tile)
+ 3. statistics  (aka: aggregation)
+ 4. arithmetic
+ 5. parallelism
+
+
++++
+[[5]] Features #1 : **Arrays and Indexing**
+### Anything that 'looks like' an array can be presented as a biggus.Array
 -------
 So, "What is an array ?"
 
@@ -149,7 +209,22 @@ It just needs to support the minimum numpy-array-like properties :
  * dtype
  * __getitem__ (i.e. indexing)
 
++++
+>>>
+[[5a]]
+### All types of Biggus array then support the major indexing operations...
+[[Picture]]
+
+:: Not quite as trivial as it looks
+:: In numpy there are about +++?? 9 ? different types of array indexing
+:: Biggus supports a useful subset...
+
+
+>>>
++++
+[[5b]]
 Here's a tiny example that "looks like" an array full of a constant, and indicates clearly when it is actually accessed.
+----
 
 In [7]:
     class constant_array(object):
@@ -173,7 +248,8 @@ accessing : (0, 1)
 [ 3.5  3.5  3.5  3.5]
 
 
-[[7]]
++++
+[[5c]]
 In fact, this functionality is already provided in biggus
 -----
 (without the evaluation debug).
@@ -191,4 +267,66 @@ In [8]:
 <ConstantArray shape=(4,) dtype=dtype('float64')>
 [ 3.77  3.77  3.77  3.77]
 
+[[8]]
 
+
+
+[[6]] Features #2 : **Grouped Arrays**
+### Arrays can be combined into larger arrays
+Two methods:
+ 1. "stack" arranges a set of identical shapes into a new dimension
+ 2. "mosaic" joins arrays edge-to-edge
+
+>>>
+[6a]
+ArrayStack
+----
+Analogous to numpy "stack" operations.
+A new dimension is always created
+((code example ==to match image))
+((Image))
+
+>>>
+[6b]
+LinearMosaic
+----
+Analogous to numpy "concatenate" operations.
+ * does *not* create a new dimension
+((code example ==to match image))
+((Image))
+
+Note:
+ * this handles irregular sizes
+ * the sources can be arranged in a multidimensional shape
+    :: prepended to the individual shape
+
+:: (IN OUR WORLD) useful for calendar operations
+:: note how powerful this is for regional extraction
+
+
+[[7]] Features #3 : **Statistics**
+We've already seen how to calulate simple statistics (the mean).
+Others follow the same pattern
+:: Though we currently support only the basics = 
+
+Implementation:
+  * each operation can be applied to subsections of the data, in a series of steps
+    * initialise : process "chunks" : finalise
+
+:: Clearly requires independent coding for each operation
+:: hence the lack of generality ==> explicit operations, own naming
+
+[[8]] Features #4 : **Arithmetic**
+So-called "Elementwise" operations are provided.
+Somewhat analagous to numpy basic functions (UFUNCS)
+   ??? IS THIS APPROPRIATE ??
+For example:
+((code example))
+
+:: at present, just add and sub
+:: the chunk-aware implementation (a pointwise function) seems obvious
+:: unlike statistics, this is not very deep, and **can** be generalised
+
+
+[[9]] Features #5 : **Parallelism and Concurrency**
+((Image))
