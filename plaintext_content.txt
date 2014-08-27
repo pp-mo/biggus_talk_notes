@@ -10,19 +10,23 @@ Biggus: https://github.com/SciTools/biggus
 ( this talk: https://github.com/pp-mo/nb-slideshow-template )
 
 
-::  Intro self; Met Office; AVD
-::    science support role, especially tools development
-::    Main product = Iris
-::      "Python library for analysing and visualising meteorological and oceanographic data sets."
+:: hi there, I'm Patrick, and I work at the UK Met Office.
+:: I'm a member of the AVD team 
+::    -- standing for "Analysis, Data and Visualization"
+:: we develop and support software tools for scientific data analysis and presentation
+:: nearly everything we produce is now open-source
+::    -- on the basis that what is good for everyone is good for us
+::
+:: I'm here to talk about Biggus, our lightweight lazy array package
+:: However, our main project is actually "Iris" :
+::   -- "a Python library for analysing and visualising meteorological and oceanographic data sets."
 ::         - this is now in use around the world, but PRINCIPALLY by a large in-house science base (~400)
 ::         - key points
-::             * fully open-source
-::             * Python, numpy, matplotlib
-::             * file-format agnostic
 ::             * processing and visualisation
+::             * based on Python, numpy/scipy and matplotlib
+::             * storage-format agnostic
+::             * fully open-source
 ::    major sub projects :  Cartopy (matplotlib mapping), Biggus (deferred data operations)
-
-
 
 [[0a]] Overview
 -------
@@ -37,6 +41,23 @@ Includes support for easily wrapping data sources which produce NumPy ndarray ob
 ** For example: netcdf4python Variable instances, and NumPy ndarray instances.
 All operations are performed in a lazy fashion to avoid overloading system resources.
 Conversion to a concrete NumPy ndarray requires an explicit method call.
+
+
+ * virtual arrays of arbitrary size
+ * combine and extract
+ * statistics
+ * arithmetic
+ * efficent evaluation
+
+:: ~EQUIVALENT TERMS: virtual, lazy, deferred, 
+:: An ordinary array (like numpy) *CONTAINS* the data concerned
+::   -- to make one, you need to load all the data
+::   -- this imposes a size limit (eventually)
+:: A **virtual** (Biggus) array does not know the data
+::   -- it knows the shape and size and type
+::   -- it knows where to get the data, and will give you any portion on request 
+::   -- there is no practical size limit
+
 
 ::  In a nutshell
 ::  Group, subset, slice+dice, arithmetic, statistical measures
@@ -294,6 +315,10 @@ A new dimension is always created
 ((code example ==to match image))
 ((Image))
 
++++
+?? cover the multidim interface
+:: note the shape goes at the front
+
 >>>
 [6b]
 LinearMosaic
@@ -310,6 +335,12 @@ Note:
 
 :: (IN OUR WORLD) useful for calendar operations
 :: note how powerful this is for regional extraction
+
+
++++
+((insert slide no.s from new example))
++++
+?? cover the LACK-OF multidim interface
 
 
 [[7]] Features #3 : **Statistics**

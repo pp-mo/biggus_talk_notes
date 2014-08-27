@@ -1,0 +1,64 @@
+12th June 1991 (initial implementation of UM)   1991  n144:   288 x 217   z 20
+28th January 1998                               1998  n216:   432 x 325   z 30
+13th December 2005 (PS9)                        2005  n320:   640 x 481   z 50
+9th March 2010 (PS23)                           2010  n512:  1024 x 769   z 70
+
+years = [1991, 1998, 2005, 2010]
+nx = [288, 432, 640, 1024]
+ny = [217, 325, 481, 769]
+nz = [20, 30, 50, 70]
+years = np.array(years)
+nx = np.array(nx)
+ny = np.array(ny)
+nz = np.array(nz)
+
+plt.plt(years, nx, '-+', title='nx')
+plt.plt(years, ny, '-+', title='ny')
+plt.plt(years, nz, '-+', title='nz')
+plt.show()
+
+Levels
+
+
+
+
+import matplotlib.ticker as mticks
+
+years = [1991, 1998, 2005, 2010]
+nx = [288, 432, 640, 1024]
+ny = [217, 325, 481, 769]
+nz = [20, 30, 50, 70]
+years = np.array(years)
+nx = np.array(nx)
+ny = np.array(ny)
+nz = np.array(nz)
+npoints = 1.0e-6 * nx * ny * nz
+
+def ann_nums(xx, offsets=(-5, 5), fmt='{}'):
+  for x, y in zip(years, xx):
+    string = fmt.format(y)
+    plt.annotate(string, xy=(x, y), xytext=offsets, textcoords='offset points')
+
+plt.figure(figsize=(8,5))
+plt.suptitle('History of Global model resolution.')
+plt.subplot(311)
+plt.gca().set_xlim(1990, 2012)
+plt.gca().set_ylim(0, 1290)
+lx = plt.plot(years, nx, '-+', color='blue')
+ly = plt.plot(years, ny, '-+', color='green')
+ann_nums(nx)
+ann_nums(ny, (5, -5))
+plt.legend(('n-x', 'n-y'), loc='upper left')
+plt.subplot(312)
+plt.gca().set_xlim(1990, 2012)
+plt.gca().set_ylim(0, 109)
+lz = plt.plot(years, nz, '-+', color='magenta')
+plt.legend(('n-z-levels',), loc='upper left')
+ann_nums(nz)
+plt.subplot(313)
+plt.gca().set_xlim(1990, 2012)
+plt.gca().set_ylim(0, 79)
+lp = plt.plot(years, npoints, '-+', color='red')
+plt.legend(('total points / million',), loc='upper left')
+ann_nums(npoints, fmt='{:5.1f}')
+plt.show()
