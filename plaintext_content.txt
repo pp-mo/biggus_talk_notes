@@ -1,3 +1,72 @@
+Repeat at end
+  sources
+  purposes
+  references
+
+Explain LAZY
+  - "don't do it until you have to"
+  
+emphasize analogy with "normal" array manipulation
+
+large datasets
+
+EXPLAIN when you can afford to get lost now...
+
+PENULTIMATE
+  breaking news
+  places it is going / growing
+  "questions I'd like to be asked"
+
+CLOSING SLIDE
+  why should i try it
+    because #1
+    because #2
+    ...
+  where can i get it
+  
+---
+BEGIN with what + why
+  work with scientists - big data - address the problems
+
+N-D arrays in examples
+  - 1d often simpler ??
+
+time/space/convenience
+  reorder
+  convenience = "time to code/recode"
+  convenience = "simpler + clearer"
+    XX you had it working + now it gets complicated
+  
+  simpler : smaller : faster
+
+
+Features\
+  parallelism is NOT a feature  (still needs code example)
+  stats : basic measures
+
+
+Make results LIVE
+  -- look at code
+  -- run code
+  
+Storytelling
+  examples
+  practicality
+  people
+
+Stack+Mosaic
+  visuals for both
+  ? combine small on intro page ?
+2d mosaic 
+  ditch code example + printouts
+  keep picture + talk to it
+
+stats: mention of subclasses
+
+arith: 
+
+
+
 [[0]] 
 Efficient large data operations with Biggus
 ===========================================
@@ -9,6 +78,8 @@ Biggus: https://github.com/SciTools/biggus
 
 ( this talk: https://github.com/pp-mo/nb-slideshow-template )
 
+
+::::::::::::::::: [[0]] Intro + background  ((3m))
 
 :: hi there, I'm Patrick, and I work at the UK Met Office.
 :: I'm a member of the AVD team 
@@ -30,7 +101,17 @@ Biggus: https://github.com/SciTools/biggus
 ::
 :: Hoping for:
 ???
-::    -- show "ordinary" users 
+::    -- increase awareness
+::        -- *mainly* ordinary users :: features already useful
+::        -- build user-base
+::        -- collect use-cases
+::    -- invite contributions
+::        -- developers  :: potential
+::        -- ideas
+::        -- code
+
+
+:::::::::::::::::::::::  [[0a]] Overview  ((3m))
 
 [[0a]] Overview
 -------
@@ -48,14 +129,6 @@ Includes support for easily wrapping data sources which produce NumPy ndarray ob
 All operations are performed in a lazy fashion to avoid overloading system resources.
 Conversion to a concrete NumPy ndarray requires an explicit method call.
 
-+++
-Key concepts: 
- * interchangeable terms : 'virtual array'; 'Lazy'  or 'deferred' evalution
- * a virtual array does not load actual values of the data ...
- * ... but it knows all about it:
-   * size and shape
-   * datatype
-   * how to load (any given part of) it
 
 :: ~EQUIVALENT TERMS: virtual, lazy, deferred, 
 ::
@@ -73,6 +146,17 @@ Key concepts:
 ::   -- there is no practical size limit
 
 
++++ ==== MISSING SLIDES... ====
+
+[0b]
++++
+Key concepts: 
+ * interchangeable terms : 'virtual array'; 'Lazy'  or 'deferred' evalution
+ * a virtual array does not load actual values of the data ...
+ * ... but it knows all about it:
+   * size and shape
+   * datatype
+   * how to load (any given part of) it
 
 +++
 >>>
@@ -93,6 +177,7 @@ Character of Biggus:
 ::    -- easily understood (an afternoon), but somewhat minimal ((agile))
 :: [EXPLICIT]
 ::    -- it doesn't attempt to simulate other APIs (except maybe indexing)
+::       !!! EXPLAIN
 ::    -- it doesn't do much "automatically" (no unexpected operations, no hidden cleverness)
 :: [WIP] : plenty of scope to add useful things, plenty of things missing
 
@@ -100,13 +185,17 @@ Character of Biggus:
 >>>
 +++DITCH??+++
 ( That's pretty much it, so we can all go home. )
+
 +++
+[0c]
 What's to come:
  * dead-simple example
  * what it's good for
  * summary of current features
  * hints about future directions
 
+
+::::::::::::::: [[1]][[2]] The longest journey / A simple 'mean' calculation ...   ((2m ????))
 
 [[1]] The longest journey ...
 ------
@@ -145,7 +234,7 @@ mean over axis 1 :
 [ 2.66666667  6.        ]
 
 
-[[3a]]  simple mean calculation : The Biggus equivalent
+[[2a]]  simple mean calculation : The Biggus equivalent
 -------
 
 >>>
@@ -156,7 +245,7 @@ In [4]:
 a lazy array :  <NumpyArrayAdapter shape=(2, 3) dtype=dtype('float64')>
 
 
-[[3b]]
+[[2b]]
 Lazy mean and result...
 
 >>>
@@ -189,10 +278,14 @@ In [6]:
 [-1.  6.]
 
 
+::::::::::::::::::: [[3]]  So... what is the point ?  ((3m))
+
 [[3]]
 So... what is the point ?
 ------
+main 3 (30s)
 
+[[3a]]
 >>>
  * CONVENIENCE (or.. "features")
     * grab all the data
@@ -212,7 +305,7 @@ So... what is the point ?
 
 
 :: CONVENIENCE is *also* EFFICIENCY 
-::    -- your time
+::    -- developer + user-coder time
 ::    -- manageable code
 
 +++
@@ -229,6 +322,7 @@ Example
 :: see the benefit of abstraction
 
 
+[[3b]]
 >>>
  * SPACE (resource efficiency)
     * data grows
@@ -244,7 +338,11 @@ Example
 ::   - with Biggus lazy evaluation, we can fix this
 ::      ... *** as we shall see... ***
 
+>>>
+((Image: UM history))
 
+
+[[3c]]
 >>>
  * TIME (efficiency + cleverness)
     * with sectional access (especially of files), you don't want to re-scan
@@ -253,6 +351,7 @@ Example
         - (i.e. processes not co-hosted)
 
 
+::::::::::::::::::::::::  [[4]] Features summary  ((1m))
 
 [[4]] Features summary
 ----
@@ -268,6 +367,8 @@ Key points:
  * all operations can be combined arbitrarily
  * lazy representation allow efficient evaluation
 
+
+:::::::::::::::::::::   [[5]] Features #1 : **Arrays and Indexing**  ((3m30))
 
 [[5]] Features #1 : **Arrays and Indexing**
 ### Anything that 'looks like' an array can be presented as a biggus.Array
@@ -342,6 +443,8 @@ In [8]:
 :: NOTE just the same as the previous
 
 
+::::::::::::::   [[6]] Features #2 : **Grouped Arrays**  ((5m))
+
 [[6]] Features #2 : **Grouped Arrays**
 ### Arrays can be combined into larger arrays
 Two methods:
@@ -382,8 +485,9 @@ Note:
 +++
 ((insert slide no.s from new example))
 +++
-?? cover the LACK-OF multidim interface
 
+
+::::::::::::::::::::  [[7]] Features #3 : **Statistics**  ((1m30))
 
 [[7]] Features #3 : **Statistics**
 
@@ -417,6 +521,9 @@ However, the operation definition can impose constraints.
 :: present operations are simpler than this, and don;t impose such constraints
 
 
+
+::::::::::::::::::::::::  [[8]] Features #4 : **Arithmetic**  ((2m))
+
 [[8]] Features #4 : **Arithmetic**
 For basic arithmetic, simple functions are provided.
 :: somewhat limited coverage at present (!!)
@@ -444,5 +551,9 @@ print 'partial sum result:\n', part_sum.ndarray()
 :: unlike statistics, this is not very deep, and **can** be generalised
 
 
+:::::::::::::::::::::   [[9]] Features #5 : **Parallelism and Concurrency**
+
 [[9]] Features #5 : **Parallelism and Concurrency**
 ((Image))
+
+:: ? If there is a clever bit, THIS IS IT ?

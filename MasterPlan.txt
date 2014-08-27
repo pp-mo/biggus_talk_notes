@@ -1,3 +1,85 @@
+TimePlan...
+
+[[0]] Intro + background  ((3m))
+ me, AVD   (1m)
+ Iris etc  (1m)
+ purposes  (1m)
+
+[[0a]] Overview  ((3m))
+abstract summary 
+[0b]
+  Key concepts:  (1m)
+  provides       (30s)
+  characteristics  (45s)
+
+[0c] What's to come
+  ((30s))
+
+
+[[1]][[2]] The longest journey / A simple 'mean' calculation ...   ((1.5))
+  numpy (30s)
+  biggus (30s)
+  mod-before-realise (30s)
+
+[[3]]  So... what is the point ?  ((3m))
+  (30s)
+[[3a]] CONVENIENCE  ((1m))
+  (aside: Iris development)
+[[3b]] SPACE  ((1m))
+  (aside: UM growth)
+[[3c]] TIME  ((30s))
+
+[[4]] Features summary  ((1m))
+ (30s)
+Key points
+ (15s)
+
+[[5]] Features #1 : **Arrays and Indexing**  ((3m30))
+[[5a]] major indexing operations  ((1m))
+"What is an array ?"  ((30s))
+[[5b]] example  ((1m30))
+[[5c]] ConstantArray  ((30s))
+
+[[6]] Features #2 : **Grouped Arrays**  ((5m))
+((15s))
+[6a] ArrayStack  ((1m30))
+desc+picture ((30s))
+code example ((1m))
+
+[[6b]] LinearMosaic  ((3m))
+main desc + code  ((1m))
+2d example  ((2m))
+
+[[7]] Features #3 : **Statistics**  ((1m30))
+basic (review)  ((30s))
+implementation  ((30s))
+evaluation      ((30s))
+
+[[8]] Features #4 : **Arithmetic**  ((2m))
+basic eg      ((30s))
+code example  ((1m))
+implementation  ((30s))
+
+[[9]] Features #5 : **Parallelism and Concurrency**
+
+
+=============
+TIME BUDGET
+[[0]] Intro + background  ((3m))
+[[0a]] Overview  ((3m))
+[[1]][[2]] The longest journey / A simple 'mean' calculation ...   ((1.5))
+[[3]]  So... what is the point ?  ((3m))
+[[4]] Features summary  ((1m))
+[[5]] Features #1 : **Arrays and Indexing**  ((3m30))
+[[6]] Features #2 : **Grouped Arrays**  ((5m))
+[[7]] Features #3 : **Statistics**  ((1m30))
+[[8]] Features #4 : **Arithmetic**  ((2m))
+[[9]] Features #5 : **Parallelism and Concurrency**
+
+
+=================
+
+
 Topics + Areas
 
 Background TB covered
