@@ -27,12 +27,18 @@ Biggus: https://github.com/SciTools/biggus
 ::             * storage-format agnostic
 ::             * fully open-source
 ::    major sub projects :  Cartopy (matplotlib mapping), Biggus (deferred data operations)
+::
+:: Hoping for:
+???
+::    -- show "ordinary" users 
 
 [[0a]] Overview
 -------
 Biggus is a lightweight pure-Python package which implements lazy operations on numpy array-like objects. This provides dramatically improved efficiency in analysing large datasets, for minimal additional effort in the client code.
 
 >>>
+
++++KILL ?? +++
 From the module docstring...
 ------
 Virtual arrays of arbitrary size, with arithmetic and statistical operations, and conversion to NumPy ndarrays.
@@ -42,35 +48,70 @@ Includes support for easily wrapping data sources which produce NumPy ndarray ob
 All operations are performed in a lazy fashion to avoid overloading system resources.
 Conversion to a concrete NumPy ndarray requires an explicit method call.
 
++++
+Key concepts: 
+ * interchangeable terms : 'virtual array'; 'Lazy'  or 'deferred' evalution
+ * a virtual array does not load actual values of the data ...
+ * ... but it knows all about it:
+   * size and shape
+   * datatype
+   * how to load (any given part of) it
 
+:: ~EQUIVALENT TERMS: virtual, lazy, deferred, 
+::
+:: THE KEY MESSAGE: lazy evaluation
+::   really not a complex idea -- and Biggus is quite a minimal implementation
+::
+:: An ordinary array (like numpy) *CONTAINS* the data concerned
+::   -- to make one, you need to load all the data
+::   -- this imposes a size limit (eventually)
+::        -- you run out of space + start thrashing the disk
+::
+:: A **virtual** (Biggus) array does not care about the data values
+::   -- it knows the shape and size and type
+::   -- it knows where to get the data, and will give you any portion on request 
+::   -- there is no practical size limit
+
+
+
++++
+>>>
+What Biggus provides:
  * virtual arrays of arbitrary size
  * combine and extract
  * statistics
  * arithmetic
  * efficent evaluation
 
-:: ~EQUIVALENT TERMS: virtual, lazy, deferred, 
-:: An ordinary array (like numpy) *CONTAINS* the data concerned
-::   -- to make one, you need to load all the data
-::   -- this imposes a size limit (eventually)
-:: A **virtual** (Biggus) array does not know the data
-::   -- it knows the shape and size and type
-::   -- it knows where to get the data, and will give you any portion on request 
-::   -- there is no practical size limit
+Character of Biggus:
+ * small, lightweight
+ * usage is explicit
+ * work-in-progress
+ 
+:: [SMALL+LIGHT]
+::    -- currently in a single module
+::    -- easily understood (an afternoon), but somewhat minimal ((agile))
+:: [EXPLICIT]
+::    -- it doesn't attempt to simulate other APIs (except maybe indexing)
+::    -- it doesn't do much "automatically" (no unexpected operations, no hidden cleverness)
+:: [WIP] : plenty of scope to add useful things, plenty of things missing
 
-
-::  In a nutshell
-::  Group, subset, slice+dice, arithmetic, statistical measures
-::    -- virtual arrays : deferred calculations + data loading, storage-agnostic
-::  
-::  (ultimately : distribution agnostic ?)
 
 >>>
++++DITCH??+++
 ( That's pretty much it, so we can all go home. )
++++
+What's to come:
+ * dead-simple example
+ * what it's good for
+ * summary of current features
+ * hints about future directions
 
 
 [[1]] The longest journey ...
 ------
++++
+Start with very simple code examples.
 >>>
 In [2]:
 import biggus
@@ -163,7 +204,7 @@ So... what is the point ?
 ::   - frequently load whole files, then cut out what you need (by type or region)
 ::
 :: The key problem here is that as the data grows, the space+time cost gets unmanageable
-::   - problems are soluable "DIVIDE + CONQUER"
+::   - problems are solvable "DIVIDE + CONQUER"
 ::   - but these problems get mixed up with the original analysis solution
 :: 
 :: SO the primary purpose of Biggus is to separate data management from processing.
@@ -257,11 +298,12 @@ It just needs to support the minimum numpy-array-like properties :
 Here's a tiny example that "looks like" an array full of a constant, and indicates clearly when it is actually accessed.
 ----
 
++++CHANGED CODE+++
 In [7]:
     class constant_array(object):
         def __init__(self, shape, value=0.0):
             self.shape = shape
-            self.dtype = np.float
+            self.dtype = np.array(value).dtype
             self._value = value
         def __getitem__(self, indices):
             print 'accessing :', indices
@@ -344,23 +386,58 @@ Note:
 
 
 [[7]] Features #3 : **Statistics**
-We've already seen how to calulate simple statistics (the mean).
-Others follow the same pattern
-:: Though we currently support only the basics = 
 
+:: only one axis at present
+
+We've already seen how to calulate simple statistics (the mean).
+  mean = biggus.mean(big_array, axis=i)
+
+This is by analogy with the numpy basic stats (though we don't provide the array methods).
+
+Others follow the same pattern.
+:: Though we currently support only the basics = min, max, 
+
+>>>
 Implementation:
-  * each operation can be applied to subsections of the data, in a series of steps
-    * initialise : process "chunks" : finalise
+  * an aggregation is coded into a specific usage framework
+  * data is processed in sections known as "chunks", in a series of steps 
+    * initialise
+    * process chunks
+    * finalise
 
 :: Clearly requires independent coding for each operation
 :: hence the lack of generality ==> explicit operations, own naming
 
+>>>
+The "chunking" is managed by the execution engine.
+
+However, the operation definition can impose constraints.
+ * for example, **rank statistics**
+:: will require full data on the relevant axis
+:: present operations are simpler than this, and don;t impose such constraints
+
+
 [[8]] Features #4 : **Arithmetic**
+For basic arithmetic, simple functions are provided.
+:: somewhat limited coverage at present (!!)
+
+>>>
+Code example...
+
 So-called "Elementwise" operations are provided.
 Somewhat analagous to numpy basic functions (UFUNCS)
    ??? IS THIS APPROPRIATE ??
 For example:
 ((code example))
+
+values = npwrap(np.arange(6.0).reshape(2,3))
+constants = npwrap(constant_array((2,3), 100.0))
+sum = biggus.add(values, constants)
+part_sum = sum[:, 1]
+print 'sum:', sum
+print 'partial sum:', part_sum
+print 'partial sum result:\n', part_sum.ndarray()
+
 
 :: at present, just add and sub
 :: the chunk-aware implementation (a pointwise function) seems obvious
