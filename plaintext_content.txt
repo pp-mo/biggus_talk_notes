@@ -1,35 +1,16 @@
-Repeat at end
-  sources
-  purposes
-  references
+BEGIN with what + why
+  work with scientists - big data - address the problems
+  large datasets
+  emphasize analogy with "normal" array manipulation
 
 Explain LAZY
   - "don't do it until you have to"
   
-emphasize analogy with "normal" array manipulation
-
-large datasets
-
-EXPLAIN when you can afford to get lost now...
-
-PENULTIMATE
-  breaking news
-  places it is going / growing
-  "questions I'd like to be asked"
-
-CLOSING SLIDE
-  why should i try it
-    because #1
-    because #2
-    ...
-  where can i get it
-  
----
-BEGIN with what + why
-  work with scientists - big data - address the problems
-
-N-D arrays in examples
-  - 1d often simpler ??
+GIVE PLAN
+  example
+  purposes
+  features
+  detail how ; in progress ; future
 
 time/space/convenience
   reorder
@@ -40,10 +21,51 @@ time/space/convenience
   simpler : smaller : faster
 
 
-Features\
+Features (summary)...
   parallelism is NOT a feature  (still needs code example)
-  stats : basic measures
+    -- separate
+  stats : stress **basic measures**
 
+Stack+Mosaic
+  visuals for both
+  ? combine small on intro page ?
+2d mosaic 
+  ditch code example + printouts
+  keep picture + talk to it
+
+stats:
+  fix mention of subclassing
+
+
+PARALLELISM -- separate section
+  EXPLAIN when you can afford to get lost now...
+
+PENULTIMATE
+  breaking news
+  places it is going / growing
+  "questions I'd like to be asked"
+    == actual concurrency in evaluation
+
+CLOSING SLIDE
+  why should i try it
+    because #1
+    because #2
+    ...
+  where can i get it
+  
+Repeat at end
+  sources
+  purposes
+  references
+
+---
+GENERAL:
+
+N-D arrays in examples
+  - 1d often simpler ??
+
+Skim / summarise over code in explanations
+  don't talk to code in slide
 
 Make results LIVE
   -- look at code
@@ -54,17 +76,8 @@ Storytelling
   practicality
   people
 
-Stack+Mosaic
-  visuals for both
-  ? combine small on intro page ?
-2d mosaic 
-  ditch code example + printouts
-  keep picture + talk to it
 
-stats: mention of subclasses
-
-arith: 
-
+---
 
 
 [[0]] 
