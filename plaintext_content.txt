@@ -5,6 +5,8 @@ BEGIN with what + why
 
 Explain LAZY
   - "don't do it until you have to"
+  simpler : smaller : faster
+
   
 GIVE PLAN
   example
@@ -18,8 +20,6 @@ time/space/convenience
   convenience = "simpler + clearer"
     XX you had it working + now it gets complicated
   
-  simpler : smaller : faster
-
 
 Features (summary)...
   parallelism is NOT a feature  (still needs code example)
@@ -95,13 +95,32 @@ Biggus: https://github.com/SciTools/biggus
 ::::::::::::::::: [[0]] Intro + background  ((3m))
 
 :: hi there, I'm Patrick, and I work at the UK Met Office.
-:: I'm a member of the AVD team 
-::    -- standing for "Analysis, Data and Visualization"
-:: we develop and support software tools for scientific data analysis and presentation
-:: nearly everything we produce is now open-source
+:: we have about 400 scientists on site, in Forecasting and Climate Research
+:: My team supports and develops software for scientific data analysis and presentation
+::
+:: there are about 8 of us, supporting 3rd party tools and writing our own
+:: we now use and develop open-source, almost exclusively
 ::    -- on the basis that what is good for everyone is good for us
 ::
-:: I'm here to talk about Biggus, our lightweight lazy array package
+:: our main project is the Iris package, but I'm here to talk about Biggus, our lightweight lazy array package
+::   I'm aiming to increase interest and invite contributions
+::   from the user point of view :
+::      it can already do plenty of useful things -- and we are using as standard in Iris
+::      a number of obvious funcitons are still missing (some very simple things)
+::      -- just waiting for someone to ask or suggest
+
+core purpose of 
+BEGIN with what + why
+  work with scientists - big data - address the problems
+  large datasets
+  emphasize analogy with "normal" array manipulation
+
+Explain LAZY
+  - "don't do it until you have to"
+  simpler : smaller : faster
+
+
+
 :: However, our main project is actually "Iris" :
 ::   -- "a Python library for analysing and visualising meteorological and oceanographic data sets."
 ::         - this is now in use around the world, but PRINCIPALLY by a large in-house science base (~400)
@@ -132,16 +151,6 @@ Biggus is a lightweight pure-Python package which implements lazy operations on 
 
 >>>
 
-+++KILL ?? +++
-From the module docstring...
-------
-Virtual arrays of arbitrary size, with arithmetic and statistical operations, and conversion to NumPy ndarrays.
-Virtual arrays can be stacked to increase their dimensionality, or tiled to increase their extent.
-Includes support for easily wrapping data sources which produce NumPy ndarray objects via slicing.
-** For example: netcdf4python Variable instances, and NumPy ndarray instances.
-All operations are performed in a lazy fashion to avoid overloading system resources.
-Conversion to a concrete NumPy ndarray requires an explicit method call.
-
 
 :: ~EQUIVALENT TERMS: virtual, lazy, deferred, 
 ::
@@ -162,6 +171,22 @@ Conversion to a concrete NumPy ndarray requires an explicit method call.
 +++ ==== MISSING SLIDES... ====
 
 [0b]
+Biggus makes data analysis on large datasets easier
+  - avoids scalability problems
+  - makes code clearer and simpler
+  - uses less space and time
+
+The core principle is "lazy evaluation"
+  * aka "**don't do it until you have to**"
+
+  
+GIVE PLAN
+  example
+  purposes
+  features
+  detail how ; in progress ; future
+
+
 +++
 Key concepts: 
  * interchangeable terms : 'virtual array'; 'Lazy'  or 'deferred' evalution
@@ -173,7 +198,8 @@ Key concepts:
 
 +++
 >>>
-What Biggus provides:
+
+Key features:
  * virtual arrays of arbitrary size
  * combine and extract
  * statistics
@@ -205,7 +231,8 @@ What's to come:
  * dead-simple example
  * what it's good for
  * summary of current features
- * hints about future directions
+ * how it works (briefly)
+ * current work and future directions
 
 
 ::::::::::::::: [[1]][[2]] The longest journey / A simple 'mean' calculation ...   ((2m ????))
