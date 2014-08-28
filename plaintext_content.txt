@@ -597,3 +597,43 @@ print 'partial sum result:\n', part_sum.ndarray()
 ((Image))
 
 :: ? If there is a clever bit, THIS IS IT ?
+
+:: You don't NEED to understand this ...
+
+
+
+:::::::::::::::::::::   [[10]] Wrapup
+Final summary:
+ * status
+   * provided features are useful
+   * missing features are many
+ * current and future expansion
+   * direct-to-file saving
+   * intelligent engine strategies
+   * whatever functions are asked for ...
+
+
+:::::::::::::::::::::   [[11]] End summary
+
+
+
+
+
+PENULTIMATE
+  breaking news
+  places it is going / growing
+  "questions I'd like to be asked"
+    == actual concurrency in evaluation
+
+CLOSING SLIDE
+  why should i try it
+    because #1
+    because #2
+    ...
+  where can i get it
+  
+Repeat at end
+  sources
+  purposes
+  references
+
